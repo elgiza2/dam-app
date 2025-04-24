@@ -1,0 +1,91 @@
+#:import Toast kivymd.toast.toast
+#:import MDBoxLayout kivymd.uix.boxlayout.MDBoxLayout
+#:import MDRaisedButton kivymd.uix.button.MDRaisedButton
+
+<PermissionScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: dp(40)
+        spacing: dp(30)
+        
+        MDIcon:
+            icon: 'shield-account'
+            font_size: dp(100)
+            halign: 'center'
+            theme_text_color: "Primary"
+        
+        MDLabel:
+            text: 'يلزم منح الصلاحيات للتطبيق'
+            font_style: 'arabic'
+            halign: 'center'
+            font_size: dp(24)
+        
+        MDLabel:
+            text: 'يحتاج التطبيق إلى صلاحيات الوصول للإنترنت والتخزين ليعمل بكفاءة'
+            font_style: 'arabic'
+            halign: 'center'
+            theme_text_color: "Secondary"
+        
+        MDRaisedButton:
+            text: 'منح الصلاحيات'
+            font_style: 'arabic'
+            size_hint: None, None
+            size: dp(200), dp(50)
+            pos_hint: {'center_x': 0.5}
+            on_release: root.request_permissions()
+
+<SplashScreen>:
+    Video:
+        source: 'assets/splash.mp4'
+        state: 'play'
+        allow_stretch: True
+        keep_ratio: False
+    
+    MDSpinner:
+        size_hint: None, None
+        size: dp(46), dp(46)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.1}
+        active: True
+        color: app.theme_cls.primary_color
+
+<WebViewScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        
+        MDToolbar:
+            title: "[font=arabic]دام[/font]"
+            left_action_items: [['refresh', lambda x: root.reload()]]
+            right_action_items: [['exit-to-app', lambda x: app.stop()]]
+            elevation: 10
+        
+        WebView:
+            id: webview
+        
+        MDProgressBar:
+            id: progress_bar
+            size_hint_y: None
+            height: dp(3)
+
+<ErrorScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: dp(40)
+        spacing: dp(30)
+        
+        MDIcon:
+            icon: 'wifi-off'
+            font_size: dp(100)
+            halign: 'center'
+            theme_text_color: "Error"
+        
+        MDLabel:
+            text: '[font=arabic]لا يوجد اتصال بالإنترنت![/font]'
+            halign: 'center'
+            font_size: dp(24)
+        
+        MDRaisedButton:
+            text: '[font=arabic]إعادة المحاولة[/font]'
+            size_hint: None, None
+            size: dp(200), dp(50)
+            pos_hint: {'center_x': 0.5}
+            on_release: root.retry()
